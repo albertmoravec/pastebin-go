@@ -2,9 +2,9 @@
 
 Fancy pastebin written in GO and Redis.
 
-![main](https://raw.githubusercontent.com/sp444/pastebin/assets/docs/main.png)
+![main](https://raw.githubusercontent.com/sp444/pastebin-go/master/assets/docs/main.png)
 
-![save](https://raw.githubusercontent.com/sp444/pastebin/assets/docs/save.png)
+![save](https://raw.githubusercontent.com/sp444/pastebin-go/master/assets/docs/save.png)
 
 ## Features
 
