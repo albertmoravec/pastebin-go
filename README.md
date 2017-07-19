@@ -27,7 +27,6 @@ https://a.sp44.me
 ### Compiling
 
 ```
-go get github.com/sp444/pastebin
 go get .
 go build pastebin.go
 ./pastebin 
