@@ -3,7 +3,7 @@
 Fancy pastebin written in GO and Redis.
 
 ## Features
-​
+
 * User defined expiration of pastes.
 * Works with or without Javascript.
 * Syntax highlighting while viewing or creating a paste (when JS is enabled).
