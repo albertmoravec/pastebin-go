@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Info - {{.AppName}}</title>
+	<link type="text/css" href="/assets/css/style.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <nav>
+        <div class="nav-wrapper no-select" style="background-color: #263238">
+            <ul class="right">
+                <li><a href="/"><i class="material-icons">content_paste</i></a></li>
+                <li><a href="/info"><i class="material-icons">info_outline</i></a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col s12 m8 offset-m2 xl6 offset-xl3">
+            <div class="card-panel grey lighten-4" id="infocard">
+                <div class="row">
+                    <h4>About</h4>
+                    <div class="paragraph">
+                        <p>Simple pastebin written in GOLANG.</p>
+                    </div>
+                    <h4>API</h4>
+                    <div class="paragraph">
+                        <p>Make a POST request like this:</p>
+                        <blockquote>
+                            curl -F"p=$(xsel)" {{ .AppUrl }}
+                        </blockquote>
+                        <p>You can set when the paste expires. The following paste will expire in 60 seconds:</p>
+                        <blockquote>
+                            curl -F"p=$(xsel)" <b>-F"expire=60"</b> {{ .AppUrl }}
+                        </blockquote>
+                    </div>
+                    <h4>Source</h4>
+                    <div class="paragraph">
+                        <p>Source code can be found <a href="https://github.com/sp444/pastebin">here</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

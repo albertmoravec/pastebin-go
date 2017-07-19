@@ -1,0 +1,49 @@
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Thin),
+        url("#{$roboto-font-path}Roboto-Thin.woff2") format("woff2"),
+        url("#{$roboto-font-path}Roboto-Thin.woff") format("woff");
+
+    font-weight: 100;
+}
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Light),
+        url("#{$roboto-font-path}Roboto-Light.woff2") format("woff2"),
+        url("#{$roboto-font-path}Roboto-Light.woff") format("woff");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Regular), 
+        url("#{$roboto-font-path}Roboto-Regular.woff2") format("woff2"),
+        url("#{$roboto-font-path}Roboto-Regular.woff") format("woff");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Medium),
+        url("#{$roboto-font-path}Roboto-Medium.woff2") format("woff2"),
+        url("#{$roboto-font-path}Roboto-Medium.woff") format("woff");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Bold),
+        url("#{$roboto-font-path}Roboto-Bold.woff2") format("woff2"),
+        url("#{$roboto-font-path}Roboto-Bold.woff") format("woff");
+    font-weight: 700;
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Source Sans Pro'), local('SourceSansPro-Regular'),
+    url('../fonts/source-sans-pro/source-sans-pro-v9-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/source-sans-pro/source-sans-pro-v9-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}

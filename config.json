@@ -1,0 +1,7 @@
+{
+  "appName": "Pastebin",
+  "appUrl": "http://localhost:8080",
+  "httpPort": "8080",
+  "redisHost": "127.0.0.1:6379",
+  "redisPass": ""
+}

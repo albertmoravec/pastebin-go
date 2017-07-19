@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{.Paste.Title}} - {{.AppName}}</title>
+    <link type="text/css" href="/assets/css/style.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper" style="position: relative;">
+        <div class="header">
+            <nav>
+                <div class="nav-wrapper" style="background-color: #263238">
+                    <a class="brand-logo" style="padding-left: 45px; font-size: 1.7em">{{ .Paste.Title }}</a>
+                    <ul class="right hide-on-med-and-down" style="text-transform: uppercase">
+                        {{ if .Paste.Syntax }}
+                        <li><a data-value="{{.Paste.Syntax}}" id="#syntax"><i class="material-icons left">code</i>{{.Paste.Syntax}}</a></li>
+                        {{end}}
+                        <li><a><i class="material-icons left">remove_red_eye</i>{{ .Paste.Clicks }}</a></li>
+                        <li><a class="tooltipped" data-position="bottom" data-tooltip="Created on {{ .Paste.CreatedOnFormatted }}" data-delay="50"><i class="material-icons left" >date_range</i>{{ .Paste.CreatedOnFormatted.Format "2 Jan, 2006" }}</a></li>
+                        {{ if .Paste.Expiration }}
+                        <li><a class="tooltipped" data-position="bottom" data-tooltip="When the file automatically gets deleted" data-delay="50"><i class="material-icons left">timelapse</i>{{ .Paste.ExpirationFormatted }}</a></li>
+                        {{ end }}
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="content">
+            <div style="padding-left: 15px;padding-top: 15px; height: 100%">
+                <textarea readonly2 id="paste" spellcheck="false" style="padding: 20px;">{{ .Paste.Body }}</textarea>
+                <input hidden="hidden" id="mime" value="{{.Paste.Mime}}">
+            </div>
+            <div class="fixed-action-btn vertical always no-select" id="ja" style="bottom: 41px; right: 41px;">
+                <a class="btn-floating btn-large teal z-depth-3 tooltipped waves-effect waves-light" data-position="left" data-delay="50" data-tooltip="View Raw" href="/{{.Paste.Url}}">
+                    <i class="large material-icons">file_download</i>
+                </a>
+                <ul>
+                    <li><a class="btn-floating green tooltipped waves-effect waves-light" data-position="left" data-tooltip="Change colorscheme" data-delay="50" id="changeTheme"><i class="material-icons">color_lens</i></a></li>
+                    <li><a class="btn-floating orange tooltipped waves-effect waves-light" data-position="left" data-tooltip="Info" data-delay="50" href="#info"><i class="material-icons">info_outline</i></a></li>
+                    <li><a class="btn-floating blue tooltipped waves-effect waves-light" data-position="left" data-tooltip="Clone paste" data-delay="50" href="/clone/{{.Paste.Url}}"><i class="material-icons">mode_edit</i></a></li>
+                    <li><a class="btn-floating purple tooltipped waves-effect waves-light" data-position="left" data-tooltip="New paste" data-delay="50" href="/"><i class="material-icons">note_add</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="info" class="modal">
+        <div class="modal-content">
+            <h4>About</h4>
+            <div class="paragraph">
+                <p>Simple pastebin written in GOLANG.</p>
+            </div>
+            <h4>API</h4>
+            <div class="paragraph">
+                <p>Make a POST request like this:</p>
+                <blockquote>
+                    curl -F"p=$(xsel)" {{ .AppUrl }}
+                </blockquote>
+                <p>You can set when the paste expires. The following paste will expire in 60 seconds:</p>
+                <blockquote>
+                    curl -F"p=$(xsel)" <b>-F"expire=60"</b> {{ .AppUrl }}
+                </blockquote>
+            </div>
+            <h4>Source</h4>
+            <div class="paragraph">
+                <p>Source code can be found <a href="https://github.com/sp444/pastebin">here</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/script.min.js"></script>
+    {{if .Paste.Syntax}}
+        <script src="/assets/js/mode/{{.Paste.Syntax}}.js"></script>
+    {{end}}
+    <script>
+        $(document).ready(function () {
+            $('.modal').modal({
+                dismissible: true,
+                opacity: .35,
+                inDuration: 100,
+                outDuration: 100,
+            });
+            editor.setOption('readOnly', true);
+            editor.setOption('cursorBlinkRate', -1);
+            var mime = $('#mime').val();
+            if (mime == "text/generic") {
+                editor.setOption('mode', "text/javascript");
+            } else {
+                editor.setOption('mode', mime);
+            }
+        });
+    </script>
+</body>
+</html>

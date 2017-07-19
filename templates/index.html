@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{.AppName}}</title>
+    <link type="text/css" href="/assets/css/style.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper" style="position: relative;">
+        <div class="header">
+            <form method="post" action="/" id="paste-form">
+                <nav>
+                    <div class="nav-wrapper no-select">
+                        <div class="row" style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px -5px rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);background-color: #263238">
+                            <input hidden="hidden" name="nojs" value="1">
+                            <input hidden="hidden" name="raw" value="0">
+                            <div class="center input-field col s12 m4" style="padding: 0px; height: 64px;">
+                                <input value="{{ .Paste.Title }}" id="title" placeholder="Untitled paste" type="search" style="margin-bottom: 0" data-length="20">
+                                <label class="label-icon" for="search"><i class="material-icons">insert_drive_file</i></label>
+                                <i class="material-icons">close</i>
+                            </div>
+                            <div class="col s4 m2 input-field nojs">
+                                <i class="material-icons prefix">access_time</i>
+                                <select name="expire" class="browser-default" style="color: black; margin-left: 3rem;width: calc(100% - 3rem); margin-top: 8px">
+                                    <option value="" disabled>File expires</option>
+                                    <option value="0" selected>Never</option>
+                                    <option value="600">10 Minutes</option>
+                                    <option value="3600">1 Hour</option>
+                                    <option value="86400">1 Day</option>
+                                    <option value="604800">1 Week</option>
+                                    <option value="1209600">2 Weeks</option>
+                                    <option value="2629743">1 Month</option>
+                                </select>
+                            </div>
+                            <div class="col s4 m2 input-field nojs">
+                                <i class="material-icons prefix">code</i>
+                                <select name="mime" class="browser-default" style="color: black; margin-left: 3rem;width: calc(100% - 3rem); margin-top: 8px">
+                                    <option selected value="text/plain">Plain text</option>
+                                    <option value="text/generic">Generic</option>
+                                    <option value="text/x-csrc">C-like</option>
+                                    <option value="text/x-cmake">Cmake</option>
+                                    <option value="text/css">Css</option>
+                                    <option value="text/x-d">D</option>
+                                    <option value="text/x-diff">Diff</option>
+                                    <option value="text/x-dockerfile">Dockerfile</option>
+                                    <option value="text/x-dockerfile">Erlang</option>
+                                    <option value="text/x-dockerfile">Golang</option>
+                                    <option value="text/x-haskell">Haskell</option>
+                                    <option value="text/html">Html</option>
+                                    <option value="text/x-java">Java</option>
+                                    <option value="text/javascript">Javascript</option>
+                                    <option value="jinja2">Jinja2</option>
+                                    <option value="text/x-kotlin">Kotlin</option>
+                                    <option value="text/x-lua">Lua</option>
+                                    <option value="text/x-markdown">Markdown</option>
+                                    <option value="text/x-perl">Perl</option>
+                                    <option value="text/x-php">Php</option>
+                                    <option value="text/x-python">Python</option>
+                                    <option value="text/x-rpm-changes">Rpm</option>
+                                    <option value="text/x-rst">Rst</option>
+                                    <option value="text/x-ruby">Ruby</option>
+                                    <option value="text/x-rust">Rust</option>
+                                    <option value="text/x-sh">Shell</option>
+                                    <option value="text/x-sql">Sql</option>
+                                    <option value="text/x-swift">Swift</option>
+                                    <option value="application/xml">Xml</option>
+                                    <option value="text/x-yaml">Yaml</option>
+                                </select>
+                            </div>
+                            <ul class="nojs">
+                                <li><a href="/info"><i class="material-icons" style="font-size: 2em">info_outline</i></a></li>
+                            </ul>
+                            <ul class="col s12 m8 hidden" style="text-transform: uppercase" id="js-options">
+                                <li>
+                                    <a class="dropdown-button" data-activates="language-list" id="selectedLanguage" data-constrainWidt="false" style="min-width: 150px">
+                                        <i class="material-icons left">code</i>
+                                        {{if .Paste.Syntax}}
+                                        {{ .Paste.Syntax }}
+                                        {{else}}
+                                        Plain Text
+                                        {{end}}
+                                    </a>
+                                </li>
+                                <li id="expire">
+                                    <i class="material-icons left" >access_time</i>
+                                    <span class="action-category-current">Paste expires </span>
+                                    <a class="dropdown-button btn blue darken-4" href="#" data-activates="expiration-list" style="min-width: 180px">
+                                        <span class="action-category-current" id="selectedExpiration">Never</span><i class="material-icons right" style="line-height: inherit;">expand_more</i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="fixed-action-btn no-select always halfway-fab" style="bottom: auto; padding-top: 30px">
+                                <button class="btn-floating btn-large teal hoverable tooltipped waves-effect waves-light" data-position="left" type="submit"
+                                        data-tooltip="Upload" id="upload" data-delay="50">
+                                    <i class="large material-icons">save</i>
+                                </button>
+                                <ul style="bottom: auto; padding-top: 5px;">
+                                    <li style="margin-left: -6.5px; margin-bottom: -2px">
+                                        <a class="btn-floating green tooltipped waves-effect waves-light" data-position="left"
+                                           data-tooltip="Change colorscheme" data-delay="50" id="changeTheme"><i class="material-icons">color_lens</i></a>
+                                        <a class="btn-floating orange tooltipped waves-effect waves-light" data-position="left"
+                                           data-tooltip="Info" data-delay="50" href="#info"><i class="material-icons">info_outline</i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </form>
+            <ul id="language-list" class="left dropdown-content blue-grey darken-3 white-text" data-select="#selectCategory">
+                <li class="language-item" data-value="text/plain"><a class="item white-text">Plain text</a></li>
+                <li class="language-item" data-value="text/generic"><a class="item white-text">Generic</a></li>
+                <li class="language-item" data-value="text/x-csrc"><a class="item white-text">C-like</a></li>
+                <li class="language-item" data-value="text/x-cmake"><a class="item white-text">Cmake</a></li>
+                <li class="language-item" data-value="text/css"><a class="item white-text">Css</a></li>
+                <li class="language-item" data-value="text/x-d"><a class="item white-text">D</a></li>
+                <li class="language-item" data-value="text/x-diff"><a class="item white-text">Diff</a></li>
+                <li class="language-item" data-value="text/x-dockerfile"><a class="item white-text">Dockerfile</a></li>
+                <li class="language-item" data-value="text/x-erlang"><a class="item white-text">Erlang</a></li>
+                <li class="language-item" data-value="text/x-go"><a class="item white-text">Go</a></li>
+                <li class="language-item" data-value="text/x-haskell"><a class="item white-text">Haskell</a></li>
+                <li class="language-item" data-value="text/html"><a class="item white-text">Html</a></li>
+                <li class="language-item" data-value="text/x-java"><a class="item white-text">Java</a></li>
+                <li class="language-item" data-value="text/javascript"><a class="item white-text">Javascript</a></li>
+                <li class="language-item" data-value="jinja2"><a class="item white-text">Jinja2</a></li>
+                <li class="language-item" data-value="text/x-kotlin"><a class="item white-text">Kotlin</a></li>
+                <li class="language-item" data-value="text/x-lua"><a class="item white-text">Lua</a></li>
+                <li class="language-item" data-value="text/x-markdown"><a class="item white-text">Markdown</a></li>
+                <li class="language-item" data-value="text/x-perl"><a class="item white-text">Perl</a></li>
+                <li class="language-item" data-value="text/x-php"><a class="item white-text">Php</a></li>
+                <li class="language-item" data-value="text/x-python"><a class="item white-text">Python</a></li>
+                <li class="language-item" data-value="text/x-rpm-changes"><a class="item white-text">Rpm</a></li>
+                <li class="language-item" data-value="text/x-rst"><a class="item white-text">Rst</a></li>
+                <li class="language-item" data-value="text/x-ruby"><a class="item white-text">Ruby</a></li>
+                <li class="language-item" data-value="text/x-rust"><a class="item white-text">Rust</a></li>
+                <li class="language-item" data-value="text/x-sh"><a class="item white-text">Shell</a></li>
+                <li class="language-item" data-value="text/x-sql"><a class="item white-text">Sql</a></li>
+                <li class="language-item" data-value="text/x-swift"><a class="item white-text">Swift</a></li>
+                <li class="language-item" data-value="application/xml"><a class="item white-text">Xml</a></li>
+                <li class="language-item" data-value="text/x-yaml"><a class="item white-text">Yaml</a></li>
+            </ul>
+            <ul id="expiration-list" class="left dropdown-content blue-grey darken-3 white-text" data-select="#selectCategory"  style="margin-top: -2px;margin-left: 15px;">
+                <li class="expire-item active" data-value="1"><a class="item white-text">Never</a></li>
+                <li class="expire-item" data-value="600"><a class="item white-text">In 10 minutes</a></li>
+                <li class="expire-item" data-value="3600"><a class="item white-text">In an Hour</a></li>
+                <li class="expire-item" data-value="86400"><a class="item white-text">In a Day</a></li>
+                <li class="expire-item" data-value="604800"><a class="item white-text">In a Week</a></li>
+                <li class="expire-item" data-value="1209600"><a class="item white-text">In 2 Weeks</a></li>
+                <li class="expire-item" data-value="2629743"><a class="item white-text">In a Month</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="row" style="margin-bottom: 0; padding-top: 5px;">
+                <div style="padding-left: 15px;padding-top: 2px; height: 100%" class="col s12">
+                    <textarea id="paste" name="paste" form="paste-form" spellcheck="false" style="padding: 20px;">{{ .Paste.Body }}</textarea>
+                    {{ if .Paste.Mime }}
+                    <input hidden="hidden" id="mime" value="{{.Paste.Mime}}">
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="info" class="modal">
+        <div class="modal-content">
+            <h4>About</h4>
+            <div class="paragraph">
+                <p>Simple pastebin written in GOLANG.</p>
+            </div>
+            <h4>API</h4>
+            <div class="paragraph">
+                <p>Make a POST request like this:</p>
+                <blockquote>
+                    curl -F"p=$(xsel)" {{ .AppUrl }}
+                </blockquote>
+                <p>You can set when the paste expires. The following paste will expire in 60 seconds:</p>
+                <blockquote>
+                    curl -F"p=$(xsel)" <b>-F"expire=60"</b> {{ .AppUrl }}
+                </blockquote>
+            </div>
+            <h4>Source</h4>
+            <div class="paragraph">
+                <p>Source code can be found <a href="https://github.com/sp444/pastebin">here</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var elements = document.getElementsByClassName('nojs');
+        console.log(elements)
+        while(elements.length > 0){
+            elements[0].parentNode.removeChild(elements[0]);
+        }
+
+        document.getElementById('js-options').classList.remove('hidden');
+    </script>
+    <script src="/assets/js/script.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $('.modal').modal({
+            dismissible: true,
+            opacity: .35,
+            inDuration: 100,
+            outDuration: 100,
+        });
+        $('select').material_select();
+        mimeValue = $('#mime').val();
+        if (mimeValue) {
+            mime = mimeValue;
+            setEditorSyntax(mime);
+            $("ul").find("[data-value='" + mime + "']").addClass('active');
+        } else {
+            $("ul").find("[data-value='text/plain']").addClass('active');
+        }
+    });
+    </script>
+</body>
+</html>
