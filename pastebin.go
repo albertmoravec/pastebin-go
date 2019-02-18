@@ -282,9 +282,12 @@ func documentHandler(w http.ResponseWriter, r *http.Request) {
 		var data string
 
 		switch contentType {
-		case "text/plain":
-			log.Print("text/plain received")
+		case "multipart/form-data":
+			log.Print("multipart/form-data received")
 
+			data = r.FormValue("data")
+			log.Printf("data: %#v", data)
+		default:
 			body, err := ioutil.ReadAll(r.Body)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusBadRequest)
@@ -294,14 +297,6 @@ func documentHandler(w http.ResponseWriter, r *http.Request) {
 			data = string(body)
 
 			log.Printf("%#v", data)
-		case "multipart/form-data":
-			log.Print("multipart/form-data received")
-
-			data = r.FormValue("data")
-			log.Printf("data: %#v", data)
-		default:
-			http.Error(w, "invalid document content type", http.StatusBadRequest)
-			return
 		}
 
 		p, err := createPaste("", data, "", "", "")
