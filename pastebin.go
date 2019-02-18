@@ -301,7 +301,7 @@ func documentHandler(w http.ResponseWriter, r *http.Request) {
 		savePaste(p)
 
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte("{\"key\":\"" + p.Url + "\"}"))
+		w.Write([]byte("{\"key\":\"p/" + p.Url + "\"}"))
 
 		return
 	default:
