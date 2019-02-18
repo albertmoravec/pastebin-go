@@ -299,7 +299,7 @@ func documentHandler(w http.ResponseWriter, r *http.Request) {
 			log.Printf("%#v", data)
 		}
 
-		p, err := createPaste("", data, "", "", "")
+		p, err := createPaste("", data, "", "", "0")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
