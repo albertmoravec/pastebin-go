@@ -277,16 +277,11 @@ func documentHandler(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		contentType := r.Header.Get("Content-Type")
 
-		log.Printf("%#v", r)
-
 		var data string
 
 		switch contentType {
 		case "multipart/form-data":
-			log.Print("multipart/form-data received")
-
 			data = r.FormValue("data")
-			log.Printf("data: %#v", data)
 		default:
 			body, err := ioutil.ReadAll(r.Body)
 			if err != nil {
@@ -295,8 +290,6 @@ func documentHandler(w http.ResponseWriter, r *http.Request) {
 			}
 
 			data = string(body)
-
-			log.Printf("%#v", data)
 		}
 
 		p, err := createPaste("", data, "", "", "0")
@@ -309,8 +302,6 @@ func documentHandler(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte("{\"key\":\"" + p.Url + "\"}"))
-
-		log.Printf("created url: %s", p.Url)
 
 		return
 	default:
