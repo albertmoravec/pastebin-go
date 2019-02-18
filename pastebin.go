@@ -275,18 +275,27 @@ func cloneHandler(w http.ResponseWriter, r *http.Request) {
 func documentHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
-		if contentType := r.Header.Get("Content-Type"); contentType != "text/plain" {
+		contentType := r.Header.Get("Content-Type")
+
+		var data string
+
+		switch contentType {
+		case "text/plain":
+			body, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+
+			data = string(body)
+		case "multipart/form-data":
+			data = r.FormValue("data")
+		default:
 			http.Error(w, "invalid document content type", http.StatusBadRequest)
 			return
 		}
 
-		body, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
-		p, err := createPaste("", string(body), "", "", "")
+		p, err := createPaste("", data, "", "", "")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
