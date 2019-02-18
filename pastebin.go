@@ -403,7 +403,7 @@ func main() {
 	http.HandleFunc("/p/", makeHandler(pasteViewHandler))
 	http.HandleFunc("/clone/", makeHandler(cloneHandler))
 	http.HandleFunc("/info", makeHandler(infoHandler))
-	http.HandleFunc("/document", makeHandler(documentHandler))
+	http.HandleFunc("/documents", makeHandler(documentHandler))
 	http.HandleFunc("/", makeHandler(pasteHandler))
 	http.Handle("/assets/", gziphandler.GzipHandler(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets/public")))))
 	log.Fatal(http.ListenAndServe(":"+config.HttpPort, nil))
