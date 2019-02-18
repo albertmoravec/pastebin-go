@@ -308,6 +308,8 @@ func documentHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte("{\"key\":\"" + p.Url + "\"}"))
 
+		log.Printf("created url: %s", p.Url)
+
 		return
 	default:
 		http.Error(w, "Invalid request", http.StatusBadRequest)
