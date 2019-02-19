@@ -5,7 +5,7 @@ WORKDIR $GOPATH/src/github.com/albru123/pastebin-go
 COPY assets/public ./assets/public
 COPY pastebin.go templates ./
 
-RUN go get -u && go build pastebin.go && echo $'\n\
+RUN apk add --no-cache git && go get -u && go build pastebin.go && apk del git && echo $'\n\
   #!/bin/sh\n\
   rm -f config.json\n\
   \n\
