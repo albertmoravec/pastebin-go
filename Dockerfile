@@ -1,6 +1,6 @@
 FROM golang:1-alpine
 
-RUN echo $'\n\
+RUN go build pastebin.go && echo $'\n\
   #!/bin/sh\n\
   rm -f config.json\n\
   \n\
