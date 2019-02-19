@@ -25,7 +25,7 @@ RUN apk update &&\
 
 FROM alpine
 
-COPY --from=build /go/src/github.com/albru123/pastebin-go/pastebin/release /app/
+COPY --from=build /go/src/github.com/albru123/pastebin-go/pastebin/release/ /app/
 WORKDIR /app
 
 CMD ./run.sh
