@@ -1,16 +1,30 @@
-FROM golang:1-alpine
+FROM golang:1-alpine AS build
 
 WORKDIR $GOPATH/src/github.com/albru123/pastebin-go
 
-COPY assets/public ./assets/public
-COPY pastebin.go templates ./
+COPY . .
 
-RUN apk add --no-cache git && go get -u && go build pastebin.go && apk del git && echo $'\n\
+RUN apk add --no-cache git &&\
+  go get -u &&\
+  go build pastebin.go &&\
+  apk del git &&\
+  mkdir release &&\
+  cp pastebin release/ &&\
+  cp -r assets/public release/ &&\
+  cp -r templates release/ &&\
+  echo $'\n\
   #!/bin/sh\n\
   rm -f config.json\n\
   \n\
   echo \"{\"appName\": \"'${APP_NAME:-Pastebin}'\", \"appUrl\": \"'${APP_URL:-http://localhost:8080}'\",\"httpPort\": \"'${PORT:-8080}'\",\"redisHost\": \"'${REDIS_HOST:-127.0.0.1:6379}'\",\"redisPass\": \"'$REDIS_PASS'\"}\" > config.json\n\
   \n\
-  sh -c ./pastebin' > run.sh && chmod +x run.sh
+  sh -c ./pastebin' > run.sh &&\
+  chmod +x run.sh &&\
+  cp run.sh release/
+
+FROM alpine
+
+COPY --from=build /go/src/github.com/albru123/pastebin-go/pastebin/release /app/
+WORKDIR /app
 
 CMD ./run.sh
