@@ -9,10 +9,10 @@ RUN apk update &&\
   go get -d -v ./... &&\
   go build pastebin.go &&\
   apk del git &&\
-  mkdir release &&\
-  cp pastebin release/ &&\
-  cp -r assets/public release/ &&\
-  cp -r templates release/ &&\
+  mkdir /release &&\
+  cp pastebin /release/ &&\
+  cp -r assets/public /release/ &&\
+  cp -r templates /release/ &&\
   echo $'\n\
   #!/bin/sh\n\
   rm -f config.json\n\
@@ -21,11 +21,11 @@ RUN apk update &&\
   \n\
   sh -c ./pastebin' > run.sh &&\
   chmod +x run.sh &&\
-  cp run.sh release/
+  cp run.sh /release/
 
 FROM alpine
 
-COPY --from=build /go/src/github.com/albru123/pastebin-go/pastebin/release/ /app/
+COPY --from=build /release/ /app/
 WORKDIR /app
 
 CMD ./run.sh
