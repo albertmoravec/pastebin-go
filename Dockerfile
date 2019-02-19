@@ -5,7 +5,7 @@ WORKDIR $GOPATH/src/github.com/albru123/pastebin-go
 COPY . .
 
 RUN apk add --no-cache git &&\
-  go get -u &&\
+  go get -u -v -d &&\
   go build pastebin.go &&\
   apk del git &&\
   mkdir release &&\
