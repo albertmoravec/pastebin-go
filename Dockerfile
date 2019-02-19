@@ -5,11 +5,10 @@ WORKDIR $GOPATH/src/github.com/albru123/pastebin-go
 COPY . .
 
 RUN apk update &&\
-  apk add --no-cache git openssh ca-certificates &&\
-  update-ca-certificates &&\
-  go get -u -v -d &&\
+  apk add --no-cache git &&\
+  go get -d -v ./... &&\
   go build pastebin.go &&\
-  apk del git openssh &&\
+  apk del git &&\
   mkdir release &&\
   cp pastebin release/ &&\
   cp -r assets/public release/ &&\
