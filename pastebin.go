@@ -244,7 +244,7 @@ func getPaste(r *http.Request) (Paste, error) {
 
 	p.CreatedOnFormatted = time.Unix(p.CreatedOn, 0).UTC()
 	if p.Expiration != 0 {
-		p.ExpirationFormatted = durafmt.Parse(time.Until(time.Unix(p.CreatedOn+p.Expiration, 0).UTC())).String()
+		p.ExpirationFormatted = durafmt.Parse(time.Until(time.Unix(p.CreatedOn+p.Expiration, 0).UTC().Round(time.Second))).String()
 	}
 	if p.Syntax == "generic" {
 		p.Syntax = ""
