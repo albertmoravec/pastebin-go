@@ -1,5 +1,7 @@
 FROM golang:1-alpine
 
+WORKDIR $GOPATH/src/github.com/albru123/pastebin-go
+
 COPY assets/public ./assets/public
 COPY pastebin.go templates ./
 
