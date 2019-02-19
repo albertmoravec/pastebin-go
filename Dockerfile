@@ -3,7 +3,7 @@ FROM golang:1-alpine
 COPY assets/public ./assets/public
 COPY pastebin.go templates ./
 
-RUN go build pastebin.go && echo $'\n\
+RUN go get -u && go build pastebin.go && echo $'\n\
   #!/bin/sh\n\
   rm -f config.json\n\
   \n\
