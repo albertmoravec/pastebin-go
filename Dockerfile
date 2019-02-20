@@ -11,7 +11,8 @@ RUN apk update &&\
   apk del git &&\
   mkdir /release &&\
   cp pastebin /release/ &&\
-  cp -r assets/public /release/ &&\
+  mkdir /release/assets &&\
+  cp -r assets/public /release/assets/ &&\
   cp -r templates /release/ &&\
   echo $'\n\
   #!/bin/sh\n\
